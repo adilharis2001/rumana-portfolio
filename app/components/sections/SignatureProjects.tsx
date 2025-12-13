@@ -198,7 +198,7 @@ function ProjectCaseStudy({ project, reverse }: { project: typeof projects[0]; r
             {project.publications.map((pub, i) => (
               <a
                 key={i}
-                href={pub.doi ? `https://doi.org/${pub.doi}` : pub.link}
+                href={pub.doi ? `https://doi.org/${pub.doi}` : ('link' in pub ? pub.link : '#')}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border-2 border-gray-200 hover:border-teal-500 transition-colors text-sm"
