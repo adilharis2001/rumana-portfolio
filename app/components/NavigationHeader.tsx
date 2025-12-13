@@ -6,6 +6,8 @@ import { Menu, X } from 'lucide-react'
 
 const sections = [
   { id: 'home', label: 'Home' },
+  { id: 'about', label: 'About' },
+  { id: 'impact', label: 'Impact' },
   { id: 'expertise', label: 'Expertise' },
   { id: 'journey', label: 'Journey' },
   { id: 'projects', label: 'Projects' },
@@ -20,8 +22,9 @@ export default function NavigationHeader() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Check if scrolled past hero
-      setIsScrolled(window.scrollY > 100)
+      // Check if scrolled past hero (hero is typically ~600-800px tall)
+      const scrollPosition = window.scrollY
+      setIsScrolled(scrollPosition > 500)
 
       // Find active section based on scroll position
       const sectionElements = sections.map(section => ({
@@ -32,7 +35,7 @@ export default function NavigationHeader() {
       const currentSection = sectionElements.find(({ element }) => {
         if (!element) return false
         const rect = element.getBoundingClientRect()
-        return rect.top <= 150 && rect.bottom >= 150
+        return rect.top <= 100 && rect.bottom >= 100
       })
 
       if (currentSection) {
@@ -47,7 +50,7 @@ export default function NavigationHeader() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
-      const offset = 80
+      const offset = 60 // Reduced offset for thinner header
       const elementPosition = element.getBoundingClientRect().top + window.scrollY
       const offsetPosition = elementPosition - offset
 
@@ -72,14 +75,24 @@ export default function NavigationHeader() {
         }`}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 md:h-20">
-            {/* Logo/Name */}
-            <button
-              onClick={() => scrollToSection('home')}
-              className="text-xl font-bold text-gray-900 hover:bg-gradient-to-r hover:from-teal-600 hover:to-purple-600 hover:bg-clip-text hover:text-transparent transition-all"
-            >
-              Rumana Rashid
-            </button>
+          <div className="flex items-center justify-between h-14">
+            {/* Logo/Name - Only show when scrolled */}
+            <AnimatePresence>
+              {isScrolled && (
+                <motion.button
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  onClick={() => scrollToSection('home')}
+                  className="text-lg font-bold text-gray-900 hover:bg-gradient-to-r hover:from-teal-600 hover:to-purple-600 hover:bg-clip-text hover:text-transparent transition-all"
+                >
+                  Rumana Rashid
+                </motion.button>
+              )}
+            </AnimatePresence>
+
+            {/* Spacer when name is hidden */}
+            {!isScrolled && <div />}
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-1">
@@ -126,7 +139,7 @@ export default function NavigationHeader() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="fixed top-16 left-0 right-0 z-40 md:hidden bg-white/95 backdrop-blur-lg border-b border-gray-200 shadow-lg"
+            className="fixed top-14 left-0 right-0 z-40 md:hidden bg-white/95 backdrop-blur-lg border-b border-gray-200 shadow-lg"
           >
             <nav className="max-w-7xl mx-auto px-4 py-4">
               <div className="flex flex-col gap-1">

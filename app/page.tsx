@@ -18,8 +18,12 @@ export default function Home() {
       <div id="home">
         <HeroSection />
       </div>
-      <NarrativeSection />
-      <ImpactDashboard />
+      <div id="about">
+        <NarrativeSection />
+      </div>
+      <div id="impact">
+        <ImpactDashboard />
+      </div>
       <div id="expertise">
         <SkillsExpertise />
       </div>
