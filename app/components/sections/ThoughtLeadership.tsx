@@ -10,6 +10,7 @@ interface BlogPost {
   pubDate: string
   description: string
   contentSnippet?: string
+  imageUrl?: string
 }
 
 export default function ThoughtLeadership() {
@@ -117,22 +118,22 @@ export default function ThoughtLeadership() {
               <p className="text-gray-500">No blog posts available yet. Check back soon!</p>
             </div>
           ) : (
-            <div className={`grid gap-8 mb-16 ${posts.length === 1 ? 'md:grid-cols-1 max-w-2xl mx-auto' : posts.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
+            <div className="max-w-4xl mx-auto mb-16">
               {posts.map((post, index) => (
                 <BlogCard key={index} post={post} delay={index * 0.1} />
               ))}
             </div>
           )}
 
-          {/* Topics Covered */}
+          {/* Topics I Write About */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center"
+            className="text-center mt-16"
           >
             <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-6">Topics I Write About</h3>
-            <div className="flex flex-wrap justify-center gap-3">
+            <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
               {[
                 'Healthcare AI',
                 'Biotech Ventures',
@@ -143,15 +144,12 @@ export default function ThoughtLeadership() {
                 'Precision Medicine',
                 'Healthcare Economics'
               ].map((topic) => (
-                <motion.span
+                <span
                   key={topic}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  className="px-4 py-2 bg-gradient-to-r from-gray-50 to-white rounded-full text-sm font-medium text-gray-700 border border-gray-200 hover:border-teal-300 hover:shadow-md transition-all"
+                  className="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-50 rounded-full border border-gray-200"
                 >
                   {topic}
-                </motion.span>
+                </span>
               ))}
             </div>
           </motion.div>
@@ -181,7 +179,7 @@ function BlogCard({ post, delay }: BlogCardProps) {
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
-      month: 'long',
+      month: 'short',
       day: 'numeric'
     })
   }
@@ -194,38 +192,45 @@ function BlogCard({ post, delay }: BlogCardProps) {
       viewport={{ once: true }}
       className="group relative"
     >
-      <a href={post.link} target="_blank" rel="noopener noreferrer" className="block">
-        {/* Gradient accent line */}
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-teal-400 via-purple-400 to-amber-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+      <a
+        href={post.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block py-8 border-b border-gray-200 hover:border-teal-300 transition-colors"
+      >
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Featured Image (if available) */}
+          {post.imageUrl && (
+            <div className="relative w-full md:w-64 h-40 overflow-hidden rounded-lg flex-shrink-0 bg-gradient-to-br from-gray-100 to-gray-50">
+              <img
+                src={post.imageUrl}
+                alt={post.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+          )}
 
-        {/* Gradient top border */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 via-purple-400 to-amber-400 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
-
-        <div className="relative bg-white rounded-2xl p-8 transition-all border border-gray-100 hover:border-transparent hover:shadow-xl overflow-hidden">
-          {/* Subtle gradient glow on hover */}
-          <div className="absolute inset-0 bg-gradient-to-br from-teal-50/50 via-purple-50/50 to-amber-50/50 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-
-          <div className="relative z-10">
+          {/* Content */}
+          <div className="flex-1 min-w-0">
             {/* Date */}
-            <div className="flex items-center gap-2 mb-4 text-sm">
-              <BookOpen className="w-4 h-4 text-teal-600" />
-              <time className="text-gray-500">{formatDate(post.pubDate)}</time>
+            <div className="flex items-center gap-2 mb-2 text-sm">
+              <time className="text-gray-500 font-medium">{formatDate(post.pubDate)}</time>
             </div>
 
             {/* Title */}
-            <h3 className="text-2xl font-bold mb-4 text-gray-900 group-hover:bg-gradient-to-r group-hover:from-teal-600 group-hover:via-purple-600 group-hover:to-amber-600 group-hover:bg-clip-text group-hover:text-transparent transition-all leading-tight">
+            <h3 className="text-2xl md:text-3xl font-bold mb-3 text-gray-900 group-hover:bg-gradient-to-r group-hover:from-teal-600 group-hover:to-purple-600 group-hover:bg-clip-text group-hover:text-transparent transition-all leading-tight">
               {post.title}
             </h3>
 
             {/* Excerpt */}
-            <p className="text-gray-700 mb-6 leading-relaxed line-clamp-3">
+            <p className="text-gray-600 mb-4 leading-relaxed">
               {excerpt}
             </p>
 
             {/* Read more */}
-            <div className="flex items-center gap-2 font-semibold group-hover:gap-3 transition-all">
-              <span className="bg-gradient-to-r from-teal-600 to-purple-600 bg-clip-text text-transparent">Read on Substack</span>
-              <ArrowRight className="w-5 h-5 text-teal-600 group-hover:translate-x-1 transition-transform" />
+            <div className="flex items-center gap-2 font-semibold text-sm group-hover:gap-3 transition-all">
+              <span className="text-teal-600">Read on Substack</span>
+              <ArrowRight className="w-4 h-4 text-teal-600 group-hover:translate-x-1 transition-transform" />
             </div>
           </div>
         </div>

@@ -30,7 +30,7 @@ export default function SkillsExpertise() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="section-title text-center mb-12"
+          className="text-3xl md:text-5xl font-bold mb-4 text-gray-900 text-center"
         >
           Skills & Expertise
         </motion.h2>
@@ -79,47 +79,91 @@ function TabButton({ active, onClick, children }: { active: boolean; onClick: ()
 }
 
 function OverviewTab() {
-  const skills = [
-    { label: 'Clinical Medicine', percentage: 95, color: 'teal' },
-    { label: 'AI & Machine Learning', percentage: 90, color: 'navy' },
-    { label: 'Biotech Investment', percentage: 85, color: 'amber' },
-    { label: 'Data Science', percentage: 90, color: 'purple' },
+  const expertiseAreas = [
+    {
+      title: 'Clinical Medicine',
+      color: 'from-teal-400 to-cyan-500',
+      icon: Stethoscope,
+      highlights: [
+        '1,000+ patients across 12+ specialties',
+        'UPMC clinical rotations',
+        'Real-world healthcare insights'
+      ]
+    },
+    {
+      title: 'AI & Machine Learning',
+      color: 'from-purple-400 to-pink-500',
+      icon: Brain,
+      highlights: [
+        'Deep learning & neural networks',
+        'Medical imaging analysis',
+        'Computational research'
+      ]
+    },
+    {
+      title: 'Biotech Investment',
+      color: 'from-amber-400 to-orange-500',
+      icon: TrendingUp,
+      highlights: [
+        'Due diligence & market analysis',
+        'Portfolio management',
+        'Venture capital experience'
+      ]
+    },
+    {
+      title: 'Data Science',
+      color: 'from-blue-400 to-indigo-500',
+      icon: Code,
+      highlights: [
+        'Python, R, MATLAB',
+        'Statistical modeling',
+        'Large-scale data analysis'
+      ]
+    },
   ]
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-8"
+      className="space-y-12"
     >
       <div className="text-center mb-12">
-        <h3 className="text-3xl font-bold mb-4">Multidisciplinary Expertise</h3>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        <h3 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">Multidisciplinary Expertise</h3>
+        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
           A unique combination of clinical medicine, AI research, and venture capital experience enables
           comprehensive evaluation of healthcare innovations.
         </p>
       </div>
 
-      <div className="space-y-6">
-        {skills.map((skill, index) => (
+      <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        {expertiseAreas.map((area, index) => (
           <motion.div
-            key={skill.label}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
+            key={area.title}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
+            className="group relative"
           >
-            <div className="flex justify-between mb-2">
-              <span className="font-semibold">{skill.label}</span>
-              <span className="text-gray-600">{skill.percentage}%</span>
-            </div>
-            <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${skill.percentage}%` }}
-                transition={{ duration: 1, delay: index * 0.1 }}
-                className={`h-full bg-${skill.color}-500`}
-                style={{ backgroundColor: getColorValue(skill.color) }}
-              />
+            {/* Gradient accent line on left */}
+            <div className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${area.color} rounded-full opacity-0 group-hover:opacity-100 transition-opacity`} />
+
+            <div className="p-6 border border-gray-200 rounded-lg hover:border-gray-300 hover:shadow-lg transition-all">
+              <div className="flex items-start gap-4 mb-4">
+                <div className={`p-3 rounded-lg bg-gradient-to-br ${area.color}`}>
+                  <area.icon className="w-6 h-6 text-white" />
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 pt-2">{area.title}</h4>
+              </div>
+
+              <ul className="space-y-2">
+                {area.highlights.map((highlight, i) => (
+                  <li key={i} className="text-gray-600 text-sm flex items-start gap-2">
+                    <span className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${area.color} mt-1.5 flex-shrink-0`} />
+                    <span>{highlight}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </motion.div>
         ))}

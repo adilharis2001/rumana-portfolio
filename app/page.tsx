@@ -1,3 +1,4 @@
+import NavigationHeader from './components/NavigationHeader'
 import HeroSection from './components/sections/HeroSection'
 import NarrativeSection from './components/sections/NarrativeSection'
 import ImpactDashboard from './components/sections/ImpactDashboard'
@@ -13,14 +14,27 @@ import ContactSection from './components/sections/ContactSection'
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <HeroSection />
+      <NavigationHeader />
+      <div id="home">
+        <HeroSection />
+      </div>
       <NarrativeSection />
       <ImpactDashboard />
-      <ExpertiseTimeline />
-      <SignatureProjects />
-      <PublicationsSection />
-      <ThoughtLeadership />
-      <SkillsExpertise />
+      <div id="expertise">
+        <SkillsExpertise />
+      </div>
+      <div id="journey">
+        <ExpertiseTimeline />
+      </div>
+      <div id="projects">
+        <SignatureProjects />
+      </div>
+      <div id="publications">
+        <PublicationsSection />
+      </div>
+      <div id="blog">
+        <ThoughtLeadership />
+      </div>
       <AwardsRecognition />
       <CurrentFocus />
       <ContactSection />

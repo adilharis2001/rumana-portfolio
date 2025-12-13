@@ -7,6 +7,7 @@ interface BlogPost {
   link: string
   pubDate: string
   description: string
+  imageUrl?: string
 }
 
 export async function GET() {
@@ -49,6 +50,10 @@ export async function GET() {
       const descMatch = itemContent.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>/)
       let description = descMatch ? descMatch[1] : ''
 
+      // Try to extract image URL from description HTML (before cleaning)
+      const imgMatch = description.match(/<img[^>]+src=["']([^"']+)["']/)
+      const imageUrl = imgMatch ? imgMatch[1] : undefined
+
       // Clean HTML from description and get plain text excerpt
       description = description
         .replace(/<[^>]*>/g, '') // Remove HTML tags
@@ -59,10 +64,18 @@ export async function GET() {
         .replace(/&quot;/g, '"')
         .replace(/&#39;/g, "'")
         .trim()
-        .slice(0, 250) // Limit to 250 chars
 
-      if (title && link) {
-        items.push({ title, link, pubDate, description })
+      // Filter out only "Coming soon" placeholder posts
+      const isComingSoon = title.toLowerCase().includes('coming soon')
+
+      if (title && link && !isComingSoon) {
+        items.push({
+          title,
+          link,
+          pubDate,
+          description: description.slice(0, 250) || 'Read more on Substack...',
+          imageUrl
+        })
       }
     }
 
