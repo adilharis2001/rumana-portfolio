@@ -1,7 +1,13 @@
 import HeroSection from './components/sections/HeroSection'
 import NarrativeSection from './components/sections/NarrativeSection'
 import ImpactDashboard from './components/sections/ImpactDashboard'
+import ExpertiseTimeline from './components/sections/ExpertiseTimeline'
+import SignatureProjects from './components/sections/SignatureProjects'
 import PublicationsSection from './components/sections/PublicationsSection'
+import ThoughtLeadership from './components/sections/ThoughtLeadership'
+import SkillsExpertise from './components/sections/SkillsExpertise'
+import AwardsRecognition from './components/sections/AwardsRecognition'
+import CurrentFocus from './components/sections/CurrentFocus'
 import ContactSection from './components/sections/ContactSection'
 
 export default function Home() {
@@ -10,7 +16,13 @@ export default function Home() {
       <HeroSection />
       <NarrativeSection />
       <ImpactDashboard />
+      <ExpertiseTimeline />
+      <SignatureProjects />
       <PublicationsSection />
+      <ThoughtLeadership />
+      <SkillsExpertise />
+      <AwardsRecognition />
+      <CurrentFocus />
       <ContactSection />
 
       {/* Footer */}
