@@ -1,119 +1,157 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, BookOpen, ExternalLink } from 'lucide-react'
-import Card from '../ui/Card'
+import { ArrowRight, BookOpen, ExternalLink, Newspaper, Pen } from 'lucide-react'
 
-// Featured blog posts - in production, these would come from Substack RSS
-const featuredPosts = [
-  {
-    title: 'Why Liquid Biopsy Startups Live or Die by Reimbursement',
-    excerpt: 'Exploring the critical intersection of innovation and healthcare economics. How reimbursement strategy determines the success of diagnostic companies...',
-    readTime: '8 min',
-    tags: ['Diagnostics', 'Business Models', 'Reimbursement'],
-    url: 'https://biotechbytes10101.substack.com',
-  },
-  {
-    title: 'I Thought Doctors Would Never Use AI - Then I Saw AI Scribes',
-    excerpt: 'A firsthand account of AI adoption in clinical practice. What makes some AI tools succeed where others fail, and lessons for healthcare innovation...',
-    readTime: '6 min',
-    tags: ['AI', 'Clinical Workflow', 'Adoption'],
-    url: 'https://biotechbytes10101.substack.com',
-  },
-  {
-    title: 'The Real Value of Clinical Insight in Biotech Investment',
-    excerpt: 'Why physician-investors see opportunities others miss. Understanding clinical unmet needs drives better investment decisions...',
-    readTime: '7 min',
-    tags: ['Venture Capital', 'Healthcare', 'Strategy'],
-    url: 'https://biotechbytes10101.substack.com',
-  },
-]
+interface BlogPost {
+  title: string
+  link: string
+  pubDate: string
+  description: string
+  contentSnippet?: string
+}
 
 export default function ThoughtLeadership() {
+  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    // Fetch blog posts from API route (server-side RSS fetching)
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('/api/blog-posts')
+        const data = await response.json()
+
+        if (data.posts && data.posts.length > 0) {
+          setPosts(data.posts)
+        } else {
+          // Fallback if API returns empty
+          setPosts([
+            {
+              title: 'Why Liquid Biopsy Startups Live or Die by Reimbursement',
+              link: 'https://biotechbytes10101.substack.com',
+              pubDate: new Date('2024-01-15').toISOString(),
+              description: 'Exploring the critical intersection of innovation and healthcare economics. How reimbursement strategy determines the success of diagnostic companies.',
+            },
+            {
+              title: 'I Thought Doctors Would Never Use AI - Then I Saw AI Scribes',
+              link: 'https://biotechbytes10101.substack.com',
+              pubDate: new Date('2024-01-08').toISOString(),
+              description: 'A firsthand account of AI adoption in clinical practice. What makes some AI tools succeed where others fail.',
+            },
+          ])
+        }
+      } catch (error) {
+        console.error('Error fetching posts:', error)
+        // Fallback on error
+        setPosts([
+          {
+            title: 'Why Liquid Biopsy Startups Live or Die by Reimbursement',
+            link: 'https://biotechbytes10101.substack.com',
+            pubDate: new Date('2024-01-15').toISOString(),
+            description: 'Exploring the critical intersection of innovation and healthcare economics.',
+          },
+          {
+            title: 'I Thought Doctors Would Never Use AI - Then I Saw AI Scribes',
+            link: 'https://biotechbytes10101.substack.com',
+            pubDate: new Date('2024-01-08').toISOString(),
+            description: 'A firsthand account of AI adoption in clinical practice.',
+          },
+        ])
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchPosts()
+  }, [])
+
   return (
-    <section className="py-24 bg-white">
-      <div className="container mx-auto px-4">
+    <section className="py-24 bg-white relative overflow-hidden">
+      {/* Subtle background gradient accents */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-teal-100/30 to-transparent rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tl from-purple-100/30 to-transparent rounded-full blur-3xl" />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-4xl md:text-5xl font-bold font-display mb-4">Biotech Bytes</h2>
-              <p className="text-xl text-gray-600 max-w-2xl">
-                Exploring healthcare innovation at the intersection of medicine, AI, and venture capital
-              </p>
-            </motion.div>
-
-            <motion.a
-              href="https://biotechbytes10101.substack.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="mt-4 md:mt-0 inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-white rounded-lg font-semibold hover:bg-teal-600 transition-colors"
-            >
-              View All Posts
-              <ExternalLink className="w-4 h-4" />
-            </motion.a>
-          </div>
-
-          {/* Featured Posts Grid */}
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {featuredPosts.map((post, index) => (
-              <BlogCard key={index} post={post} delay={index * 0.1} />
-            ))}
-          </div>
-
-          {/* Newsletter Signup */}
+          {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mt-16 p-8 md:p-12 bg-gradient-to-br from-teal-50 via-blue-50 to-purple-50 rounded-2xl"
+            className="text-center mb-16"
           >
-            <div className="max-w-2xl mx-auto text-center">
-              <BookOpen className="w-12 h-12 text-teal-600 mx-auto mb-4" />
-              <h3 className="text-3xl font-bold mb-4">Get Healthcare Innovation Insights</h3>
-              <p className="text-gray-700 mb-8 text-lg">
-                Weekly deep dives on biotech, AI, and venture capital. From someone who's worked at the bedside, the bench, and the boardroom.
-              </p>
-
-              {/* Substack Subscribe Button */}
-              <div className="flex justify-center">
-                <a
-                  href="https://biotechbytes10101.substack.com/subscribe"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-teal-500 text-white rounded-lg font-bold text-lg hover:bg-teal-600 transition-colors shadow-lg hover:shadow-xl"
-                >
-                  Subscribe on Substack
-                  <ArrowRight className="w-5 h-5" />
-                </a>
-              </div>
-
-              <p className="text-sm text-gray-600 mt-4">Free • No spam • Unsubscribe anytime</p>
-            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
+              Biotech Bytes
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-2">
+              Insights on healthcare innovation at the intersection of medicine, AI, and venture capital
+            </p>
+            <p className="text-sm text-gray-500 mb-8">A blog by Rumana Rashid</p>
+            <a
+              href="https://biotechbytes10101.substack.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white rounded-xl border border-gray-200 hover:border-teal-400 hover:shadow-lg transition-all font-semibold text-gray-700 hover:text-teal-600"
+            >
+              <Newspaper className="w-5 h-5" />
+              <span>Visit Substack</span>
+              <ExternalLink className="w-4 h-4" />
+            </a>
           </motion.div>
+
+          {/* Blog Posts */}
+          {isLoading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="bg-gray-200 rounded-2xl h-64" />
+                </div>
+              ))}
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="text-center py-12 mb-16">
+              <p className="text-gray-500">No blog posts available yet. Check back soon!</p>
+            </div>
+          ) : (
+            <div className={`grid gap-8 mb-16 ${posts.length === 1 ? 'md:grid-cols-1 max-w-2xl mx-auto' : posts.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
+              {posts.map((post, index) => (
+                <BlogCard key={index} post={post} delay={index * 0.1} />
+              ))}
+            </div>
+          )}
 
           {/* Topics Covered */}
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mt-12 text-center"
+            className="text-center"
           >
-            <p className="text-sm text-gray-600 mb-3">Topics I Write About:</p>
-            <div className="flex flex-wrap justify-center gap-2">
-              {['Healthcare AI', 'Biotech Ventures', 'Clinical Innovation', 'Drug Development', 'Digital Health', 'Market Analysis', 'Precision Medicine', 'Healthcare Economics'].map((topic) => (
-                <span
+            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-6">Topics I Write About</h3>
+            <div className="flex flex-wrap justify-center gap-3">
+              {[
+                'Healthcare AI',
+                'Biotech Ventures',
+                'Clinical Innovation',
+                'Drug Development',
+                'Digital Health',
+                'Market Analysis',
+                'Precision Medicine',
+                'Healthcare Economics'
+              ].map((topic) => (
+                <motion.span
                   key={topic}
-                  className="px-4 py-2 bg-white rounded-full text-sm font-medium text-gray-700 border border-gray-200"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  className="px-4 py-2 bg-gradient-to-r from-gray-50 to-white rounded-full text-sm font-medium text-gray-700 border border-gray-200 hover:border-teal-300 hover:shadow-md transition-all"
                 >
                   {topic}
-                </span>
+                </motion.span>
               ))}
             </div>
           </motion.div>
@@ -124,57 +162,72 @@ export default function ThoughtLeadership() {
 }
 
 interface BlogCardProps {
-  post: typeof featuredPosts[0]
+  post: BlogPost
   delay: number
 }
 
 function BlogCard({ post, delay }: BlogCardProps) {
+  // Extract plain text from HTML description
+  const getPlainText = (html: string) => {
+    const div = document.createElement('div')
+    div.innerHTML = html
+    return div.textContent || div.innerText || ''
+  }
+
+  const excerpt = post.description ? getPlainText(post.description).slice(0, 200) + '...' : post.description
+
+  // Format date
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  }
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay }}
       viewport={{ once: true }}
-      className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all group overflow-hidden"
+      className="group relative"
     >
-      <a href={post.url} target="_blank" rel="noopener noreferrer" className="block">
-        {/* Gradient header */}
-        <div className="h-2 bg-gradient-to-r from-teal-500 to-blue-500" />
+      <a href={post.link} target="_blank" rel="noopener noreferrer" className="block">
+        {/* Gradient accent line */}
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-teal-400 via-purple-400 to-amber-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
 
-        <div className="p-6">
-          {/* Meta */}
-          <div className="flex items-center gap-3 mb-3 text-sm text-gray-500">
-            <BookOpen className="w-4 h-4" />
-            <span>{post.readTime} read</span>
+        {/* Gradient top border */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 via-purple-400 to-amber-400 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
+
+        <div className="relative bg-white rounded-2xl p-8 transition-all border border-gray-100 hover:border-transparent hover:shadow-xl overflow-hidden">
+          {/* Subtle gradient glow on hover */}
+          <div className="absolute inset-0 bg-gradient-to-br from-teal-50/50 via-purple-50/50 to-amber-50/50 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+
+          <div className="relative z-10">
+            {/* Date */}
+            <div className="flex items-center gap-2 mb-4 text-sm">
+              <BookOpen className="w-4 h-4 text-teal-600" />
+              <time className="text-gray-500">{formatDate(post.pubDate)}</time>
+            </div>
+
+            {/* Title */}
+            <h3 className="text-2xl font-bold mb-4 text-gray-900 group-hover:bg-gradient-to-r group-hover:from-teal-600 group-hover:via-purple-600 group-hover:to-amber-600 group-hover:bg-clip-text group-hover:text-transparent transition-all leading-tight">
+              {post.title}
+            </h3>
+
+            {/* Excerpt */}
+            <p className="text-gray-700 mb-6 leading-relaxed line-clamp-3">
+              {excerpt}
+            </p>
+
+            {/* Read more */}
+            <div className="flex items-center gap-2 font-semibold group-hover:gap-3 transition-all">
+              <span className="bg-gradient-to-r from-teal-600 to-purple-600 bg-clip-text text-transparent">Read on Substack</span>
+              <ArrowRight className="w-5 h-5 text-teal-600 group-hover:translate-x-1 transition-transform" />
+            </div>
           </div>
-
-          {/* Title */}
-          <h3 className="text-xl font-bold mb-3 group-hover:text-teal-600 transition-colors line-clamp-2">
-            {post.title}
-          </h3>
-
-          {/* Excerpt */}
-          <p className="text-gray-700 mb-4 line-clamp-3 text-sm leading-relaxed">
-            {post.excerpt}
-          </p>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs font-medium"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          {/* Read more */}
-          <span className="text-teal-600 font-semibold inline-flex items-center text-sm">
-            Read on Substack
-            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </span>
         </div>
       </a>
     </motion.article>

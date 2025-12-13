@@ -183,7 +183,7 @@ export default function ExpertiseTimeline() {
           viewport={{ once: true }}
           className="text-center mb-12 md:mb-20"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-teal-600 via-purple-600 to-amber-600 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-gray-900">
             My Journey
           </h2>
           <p className="text-gray-600 text-sm md:text-lg max-w-2xl mx-auto">

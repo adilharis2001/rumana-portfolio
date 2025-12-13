@@ -1,9 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { AlertCircle, CheckCircle, ExternalLink, Brain, Monitor, TrendingUp, Globe } from 'lucide-react'
-import Card from '../ui/Card'
-import Badge from '../ui/Badge'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ExternalLink, Brain, Monitor, TrendingUp, Globe, ArrowRight, Lightbulb, Zap, ChevronDown, ChevronUp } from 'lucide-react'
+import { useState } from 'react'
 
 const projects = [
   {
@@ -120,20 +119,31 @@ const projects = [
 
 export default function SignatureProjects() {
   return (
-    <section className="py-24 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <motion.h2
+    <section className="py-24 bg-white relative overflow-hidden">
+      {/* Subtle background gradient accents */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-teal-100/30 to-transparent rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-purple-100/30 to-transparent rounded-full blur-3xl" />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="section-title text-center mb-16"
+          className="text-center mb-20"
         >
-          Signature Projects
-        </motion.h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
+            Signature Projects
+          </h2>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            From precision medicine AI to national research infrastructure
+          </p>
+        </motion.div>
 
-        <div className="space-y-24">
+        <div className="space-y-32">
           {projects.map((project, index) => (
-            <ProjectCaseStudy key={project.id} project={project} reverse={index % 2 !== 0} />
+            <ProjectCaseStudy key={project.id} project={project} index={index} />
           ))}
         </div>
       </div>
@@ -141,102 +151,225 @@ export default function SignatureProjects() {
   )
 }
 
-function ProjectCaseStudy({ project, reverse }: { project: typeof projects[0]; reverse: boolean }) {
+function ProjectCaseStudy({ project, index }: { project: typeof projects[0]; index: number }) {
   const Icon = project.icon
+  const reverse = index % 2 !== 0
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  const gradients: Record<string, { gradient: string; light: string; icon: string }> = {
+    teal: { gradient: 'from-teal-400 to-cyan-400', light: 'from-teal-50 to-cyan-50', icon: 'from-teal-500 to-cyan-500' },
+    navy: { gradient: 'from-blue-400 to-indigo-400', light: 'from-blue-50 to-indigo-50', icon: 'from-blue-500 to-indigo-500' },
+    purple: { gradient: 'from-purple-400 to-pink-400', light: 'from-purple-50 to-pink-50', icon: 'from-purple-500 to-pink-500' },
+    amber: { gradient: 'from-amber-400 to-orange-400', light: 'from-amber-50 to-orange-50', icon: 'from-amber-500 to-orange-500' },
+  }
+  const colors = gradients[project.color] || gradients.teal
 
   return (
-    <div className={`grid lg:grid-cols-2 gap-12 items-start ${reverse ? 'lg:flex-row-reverse' : ''}`}>
-      {/* Content */}
-      <motion.div
-        initial={{ opacity: 0, x: reverse ? 50 : -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        className={`space-y-6 ${reverse ? 'lg:order-2' : ''}`}
-      >
-        <div>
-          <Badge variant={project.color as any} className="mb-3">
-            {project.tag}
-          </Badge>
-          <h3 className="text-3xl md:text-4xl font-bold mb-4">{project.title}</h3>
-        </div>
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="relative"
+    >
+      {/* Floating gradient line accent */}
+      <div className={`absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b ${colors.gradient} rounded-full hidden lg:block`} />
 
-        {/* Problem */}
-        <div className="bg-red-50 rounded-lg p-6">
-          <h4 className="font-bold text-lg mb-3 flex items-center gap-2">
-            <AlertCircle className="w-5 h-5 text-red-600" />
-            The Problem
-          </h4>
-          <ul className="space-y-2">
-            {project.problem.map((item, i) => (
-              <li key={i} className="flex items-start gap-2 text-gray-700">
-                <span className="text-red-500 mt-1">•</span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Solution */}
-        <div className="bg-green-50 rounded-lg p-6">
-          <h4 className="font-bold text-lg mb-3 flex items-center gap-2">
-            <CheckCircle className="w-5 h-5 text-green-600" />
-            The Solution
-          </h4>
-          <ul className="space-y-2">
-            {project.solution.map((item, i) => (
-              <li key={i} className="flex items-start gap-2 text-gray-700">
-                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Publications */}
-        {project.publications.length > 0 && (
-          <div className="flex flex-wrap gap-3">
-            {project.publications.map((pub, i) => (
-              <a
-                key={i}
-                href={pub.doi ? `https://doi.org/${pub.doi}` : ('link' in pub ? pub.link : '#')}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border-2 border-gray-200 hover:border-teal-500 transition-colors text-sm"
-              >
-                <span className="font-semibold">{pub.title}</span>
-                <ExternalLink className="w-4 h-4" />
-              </a>
-            ))}
-          </div>
-        )}
-      </motion.div>
-
-      {/* Impact Card */}
-      <motion.div
-        initial={{ opacity: 0, x: reverse ? -50 : 50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        className={reverse ? 'lg:order-1' : ''}
-      >
-        <Card className="bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200">
-          <div className={`w-16 h-16 bg-gradient-to-br from-${project.color}-400 to-${project.color}-600 rounded-xl flex items-center justify-center mb-6 shadow-lg`}>
-            <Icon className="w-8 h-8 text-white" />
-          </div>
-
-          <h4 className="font-bold text-xl mb-6">The Impact</h4>
-
-          <div className="grid grid-cols-3 gap-4 mb-6">
-            {project.impact.metrics.map((metric, i) => (
-              <div key={i} className="text-center">
-                <div className="text-2xl font-bold text-gray-900 mb-1">{metric.value}</div>
-                <div className="text-xs text-gray-600">{metric.label}</div>
+      <div className={`grid lg:grid-cols-2 gap-8 lg:gap-16 ${reverse ? 'lg:grid-flow-dense' : ''}`}>
+        {/* Left Column - Header & Details */}
+        <div className={`${reverse ? 'lg:col-start-2' : ''}`}>
+          {/* Project Header */}
+          <div className="mb-6">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 mb-4"
+            >
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${colors.icon} flex items-center justify-center shadow-lg`}>
+                <Icon className="w-6 h-6 text-white" strokeWidth={2} />
               </div>
-            ))}
+              <span className={`px-3 py-1 text-sm font-medium bg-gradient-to-r ${colors.light} rounded-full`}>
+                {project.tag}
+              </span>
+            </motion.div>
+
+            <div className="flex items-start justify-between gap-4">
+              <h3 className="text-2xl md:text-4xl font-bold text-gray-900 flex-1">
+                {project.title}
+              </h3>
+              {/* Mobile expand/collapse button */}
+              <button
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="lg:hidden flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+                aria-label={isExpanded ? 'Collapse details' : 'Expand details'}
+              >
+                {isExpanded ? (
+                  <ChevronUp className="w-5 h-5 text-gray-600" />
+                ) : (
+                  <ChevronDown className="w-5 h-5 text-gray-600" />
+                )}
+              </button>
+            </div>
           </div>
 
-          <p className="text-gray-700 leading-relaxed">{project.impact.description}</p>
-        </Card>
-      </motion.div>
-    </div>
+          {/* Mobile Impact Summary (always visible) */}
+          <div className="lg:hidden mb-6">
+            <div className="grid grid-cols-3 gap-4">
+              {project.impact.metrics.map((metric, i) => (
+                <div key={i} className="text-center">
+                  <div className={`text-xl font-bold mb-1 bg-gradient-to-r ${colors.gradient} bg-clip-text text-transparent`}>
+                    {metric.value}
+                  </div>
+                  <div className="text-xs text-gray-600 leading-tight">{metric.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Collapsible Details - Hidden on mobile unless expanded, always visible on desktop */}
+          <div className={`${isExpanded ? 'block' : 'hidden'} lg:block space-y-8`}>
+            {/* Challenge → Solution Flow */}
+            <div className="space-y-6">
+              {/* Challenge */}
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+                    <Lightbulb className="w-4 h-4 text-gray-600" />
+                  </div>
+                  <h4 className="font-bold text-lg text-gray-900">The Challenge</h4>
+                </div>
+                <div className="space-y-3 pl-11">
+                  {project.problem.map((item, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1 }}
+                      className="flex items-start gap-3"
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-gray-400 to-gray-500 mt-2 flex-shrink-0" />
+                      <p className="text-gray-600 leading-relaxed">{item}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Gradient Arrow */}
+              <div className="flex items-center gap-3 pl-3">
+                <div className={`flex-1 h-px bg-gradient-to-r ${colors.gradient}`} />
+                <ArrowRight className={`w-5 h-5 text-transparent bg-gradient-to-r ${colors.gradient} bg-clip-text`} strokeWidth={3} />
+                <div className={`flex-1 h-px bg-gradient-to-r ${colors.gradient}`} />
+              </div>
+
+              {/* Approach */}
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${colors.gradient} flex items-center justify-center shadow-md`}>
+                    <Zap className="w-4 h-4 text-white" />
+                  </div>
+                  <h4 className="font-bold text-lg text-gray-900">The Approach</h4>
+                </div>
+                <div className="space-y-3 pl-11">
+                  {project.solution.map((item, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 + i * 0.1 }}
+                      className="flex items-start gap-3 group"
+                    >
+                      <div className={`w-5 h-5 rounded-md bg-gradient-to-br ${colors.gradient} flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm`}>
+                        <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                      </div>
+                      <p className="text-gray-700 leading-relaxed font-medium">{item}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Publications */}
+            {project.publications.length > 0 && (
+              <div className="space-y-3">
+                <h5 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Publications</h5>
+                <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
+                  {project.publications.map((pub, i) => (
+                    <motion.a
+                      key={i}
+                      href={pub.doi ? `https://doi.org/${pub.doi}` : ('link' in pub ? pub.link : '#')}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.6 + i * 0.1 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="group inline-flex items-center gap-2 px-4 py-2.5 bg-white rounded-xl border border-gray-200 hover:border-transparent hover:shadow-lg transition-all relative overflow-hidden"
+                    >
+                      <div className={`absolute inset-0 bg-gradient-to-r ${colors.gradient} opacity-0 group-hover:opacity-10 transition-opacity`} />
+                      <span className="font-semibold text-sm text-gray-700 relative z-10">{pub.title}</span>
+                      <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-gray-600 relative z-10" />
+                    </motion.a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right Column - Impact (Desktop only - mobile shows summary above) */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className={`hidden lg:block relative ${reverse ? 'lg:col-start-1 lg:row-start-1' : ''}`}
+        >
+          {/* Impact card with gradient accent */}
+          <div className="relative bg-white rounded-2xl p-8 shadow-xl border border-gray-100 overflow-hidden sticky top-8">
+            {/* Gradient accent bar */}
+            <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${colors.gradient}`} />
+
+            {/* Subtle background glow */}
+            <div className={`absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br ${colors.gradient} opacity-5 rounded-full blur-3xl`} />
+
+            <div className="relative z-10">
+              <h4 className="font-bold text-2xl mb-8 text-gray-900">The Impact</h4>
+
+              {/* Metrics Grid */}
+              <div className="grid grid-cols-3 gap-6 mb-8">
+                {project.impact.metrics.map((metric, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4 + i * 0.1 }}
+                    className="text-center"
+                  >
+                    <div className={`text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r ${colors.gradient} bg-clip-text text-transparent`}>
+                      {metric.value}
+                    </div>
+                    <div className="text-xs text-gray-600 leading-tight">{metric.label}</div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Divider */}
+              <div className={`h-px bg-gradient-to-r ${colors.gradient} opacity-20 mb-6`} />
+
+              {/* Impact Description */}
+              <p className="text-gray-700 leading-relaxed">
+                {project.impact.description}
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
   )
 }
