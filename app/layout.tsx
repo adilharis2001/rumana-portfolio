@@ -43,6 +43,12 @@ export const metadata: Metadata = {
 
   creator: 'Rumana Rashid',
 
+  icons: {
+    icon: '/images/rumana.jpeg',
+    shortcut: '/images/rumana.jpeg',
+    apple: '/images/rumana.jpeg',
+  },
+
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -50,6 +56,14 @@ export const metadata: Metadata = {
     title: 'Rumana Rashid - MD/PhD | AI Researcher | Biotech Investor',
     description: 'Transforming healthcare through clinical insight, AI innovation, and strategic investment',
     siteName: 'Rumana Rashid Portfolio',
+    images: [
+      {
+        url: '/images/rumana.jpeg',
+        width: 1200,
+        height: 1200,
+        alt: 'Rumana Rashid',
+      },
+    ],
   },
 
   robots: {
