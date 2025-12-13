@@ -31,9 +31,9 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative w-48 h-48 mx-auto lg:mx-0"
             >
-              <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-teal-500 shadow-2xl bg-gradient-to-br from-teal-500 to-navy-600">
+              <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-teal-500 shadow-2xl">
                 <Image
-                  src="/images/profile.svg"
+                  src="/images/rumana.jpeg"
                   alt="Rumana Rashid"
                   fill
                   className="object-cover"
