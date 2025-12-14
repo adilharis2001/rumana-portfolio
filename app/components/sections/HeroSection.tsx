@@ -193,24 +193,24 @@ function VennDiagramEnhanced() {
       label: 'Clinical Medicine',
       metric: '1,000+',
       subMetric: 'patients',
-      color: '#2B9EB3',
-      glowColor: 'rgba(43, 158, 179, 0.4)',
+      color: '#5EEAD4', // Teal-300 for lighter pastel
+      glowColor: 'rgba(94, 234, 212, 0.3)',
     },
     {
       id: 'research',
       label: 'AI Research',
       metric: '1,363',
       subMetric: 'citations',
-      color: '#8B5CF6',
-      glowColor: 'rgba(139, 92, 246, 0.4)',
+      color: '#C084FC', // Purple-400 for lighter pastel
+      glowColor: 'rgba(192, 132, 252, 0.3)',
     },
     {
       id: 'venture',
       label: 'Venture Capital',
       metric: '$129M',
       subMetric: 'allocated',
-      color: '#D4A574',
-      glowColor: 'rgba(212, 165, 116, 0.4)',
+      color: '#FBBF24', // Amber-400 for lighter pastel
+      glowColor: 'rgba(251, 191, 36, 0.3)',
     },
   ]
 
@@ -330,7 +330,7 @@ function VennDiagramEnhanced() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.2 }}
           >
-            <circle cx="300" cy="240" r="50" fill="rgba(43, 158, 179, 0.1)" stroke="#2B9EB3" strokeWidth="2" />
+            <circle cx="300" cy="240" r="50" fill="rgba(94, 234, 212, 0.1)" stroke="#5EEAD4" strokeWidth="2" />
             <text x="300" y="235" textAnchor="middle" className="text-base fill-gray-800" style={{ fontSize: '16px', fontWeight: 'bold' }}>
               Healthcare
             </text>

@@ -192,21 +192,21 @@ export default function ExpertiseTimeline() {
           <div className="w-32 h-1 bg-gradient-to-r from-teal-500 via-purple-500 to-amber-500 rounded-full mx-auto mt-6" />
         </motion.div>
 
-        {/* Track Legend */}
+        {/* Track Legend - Mobile Only */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-4 md:gap-8 mb-12 md:mb-16"
+          className="flex flex-wrap justify-center gap-4 mb-12 lg:hidden"
         >
           {Object.entries(trackConfig).map(([key, config]) => {
             const Icon = config.icon
             return (
-              <div key={key} className="flex items-center gap-2 md:gap-3">
-                <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br ${config.gradient} flex items-center justify-center shadow-lg`}>
-                  <Icon className="w-4 h-4 md:w-5 md:h-5 text-white" strokeWidth={2.5} />
+              <div key={key} className="flex items-center gap-2">
+                <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${config.gradient} flex items-center justify-center shadow-lg`}>
+                  <Icon className="w-4 h-4 text-white" strokeWidth={2.5} />
                 </div>
-                <span className="text-xs md:text-sm font-semibold text-gray-700">{config.name}</span>
+                <span className="text-xs font-semibold text-gray-700">{config.name}</span>
               </div>
             )
           })}
