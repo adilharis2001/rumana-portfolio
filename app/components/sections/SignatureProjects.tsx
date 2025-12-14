@@ -119,7 +119,7 @@ const projects = [
 
 export default function SignatureProjects() {
   return (
-    <section className="py-24 bg-white relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-white relative overflow-hidden">
       {/* Subtle background gradient accents */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-teal-100/30 to-transparent rounded-full blur-3xl" />
@@ -131,17 +131,17 @@ export default function SignatureProjects() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="text-center mb-12 md:mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-gray-900">
             Signature Projects
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
             From precision medicine AI to national research infrastructure
           </p>
         </motion.div>
 
-        <div className="space-y-32">
+        <div className="space-y-12 md:space-y-32">
           {projects.map((project, index) => (
             <ProjectCaseStudy key={project.id} project={project} index={index} />
           ))}
@@ -175,7 +175,7 @@ function ProjectCaseStudy({ project, index }: { project: typeof projects[0]; ind
       {/* Floating gradient line accent */}
       <div className={`absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b ${colors.gradient} rounded-full hidden lg:block`} />
 
-      <div className={`grid lg:grid-cols-2 gap-8 lg:gap-16 ${reverse ? 'lg:grid-flow-dense' : ''}`}>
+      <div className={`grid lg:grid-cols-2 gap-8 lg:gap-16 lg:items-center ${reverse ? 'lg:grid-flow-dense' : ''}`}>
         {/* Left Column - Header & Details */}
         <div className={`${reverse ? 'lg:col-start-2' : ''}`}>
           {/* Project Header */}
@@ -330,7 +330,7 @@ function ProjectCaseStudy({ project, index }: { project: typeof projects[0]; ind
           className={`hidden lg:block relative ${reverse ? 'lg:col-start-1 lg:row-start-1' : ''}`}
         >
           {/* Impact card with gradient accent */}
-          <div className="relative bg-white rounded-2xl p-8 shadow-xl border border-gray-100 overflow-hidden sticky top-8">
+          <div className="relative bg-white rounded-2xl p-8 shadow-xl border border-gray-100 overflow-hidden">
             {/* Gradient accent bar */}
             <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${colors.gradient}`} />
 
