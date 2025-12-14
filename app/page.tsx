@@ -40,7 +40,9 @@ export default function Home() {
         <ThoughtLeadership />
       </div>
       <AwardsRecognition />
-      <CurrentFocus />
+      <div id="focus">
+        <CurrentFocus />
+      </div>
       <div id="contact">
         <ContactSection />
       </div>

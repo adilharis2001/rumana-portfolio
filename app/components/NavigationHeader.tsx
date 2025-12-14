@@ -11,6 +11,7 @@ const sections = [
   { id: 'journey', label: 'Journey' },
   { id: 'projects', label: 'Projects' },
   { id: 'blog', label: 'Blog' },
+  { id: 'focus', label: 'Focus' },
   { id: 'contact', label: 'Contact' },
 ]
 
