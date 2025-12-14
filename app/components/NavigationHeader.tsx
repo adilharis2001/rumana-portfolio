@@ -10,8 +10,8 @@ const sections = [
   { id: 'expertise', label: 'Expertise' },
   { id: 'journey', label: 'Journey' },
   { id: 'projects', label: 'Projects' },
-  { id: 'publications', label: 'Publications' },
   { id: 'blog', label: 'Blog' },
+  { id: 'contact', label: 'Contact' },
 ]
 
 export default function NavigationHeader() {

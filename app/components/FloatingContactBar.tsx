@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { Mail, Phone, GraduationCap, Linkedin, BookOpen, MessageCircle, X } from 'lucide-react'
+import { Mail, GraduationCap, Linkedin, BookOpen, MessageCircle, X } from 'lucide-react'
 import { useState } from 'react'
 
 const contactLinks = [
@@ -12,9 +12,9 @@ const contactLinks = [
     color: 'teal'
   },
   {
-    icon: Phone,
-    href: 'tel:540-841-5261',
-    label: 'Phone',
+    icon: Linkedin,
+    href: 'https://www.linkedin.com/in/rurashid001/',
+    label: 'LinkedIn',
     color: 'teal'
   },
   {
@@ -22,12 +22,6 @@ const contactLinks = [
     href: 'https://scholar.google.com/citations?user=PjPMy1gAAAAJ',
     label: 'Google Scholar',
     color: 'purple'
-  },
-  {
-    icon: Linkedin,
-    href: 'https://www.linkedin.com/in/rurashid001/',
-    label: 'LinkedIn',
-    color: 'teal'
   },
   {
     icon: BookOpen,
