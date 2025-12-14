@@ -168,11 +168,20 @@ function renderWithEmphasis(text: string, gradient: string) {
 
 export default function ExpertiseTimeline() {
   return (
-    <section className="relative py-20 md:py-32 bg-gradient-to-b from-white via-gray-50 to-white overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-teal-200/20 to-cyan-200/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-72 h-72 bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-3xl" />
+    <section className="relative py-20 md:py-32 overflow-hidden">
+      {/* Background matching hero theme */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-teal-50/40" />
+
+        {/* Animated gradient orbs */}
+        <div className="absolute top-20 right-20 w-[500px] h-[500px] bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-3xl animate-blob animation-delay-2000" />
+        <div className="absolute bottom-20 left-20 w-[500px] h-[500px] bg-gradient-to-br from-teal-200/20 to-cyan-200/20 rounded-full blur-3xl animate-blob" />
+
+        {/* Grid pattern */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: 'linear-gradient(rgba(43, 158, 179, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(43, 158, 179, 0.1) 1px, transparent 1px)',
+          backgroundSize: '50px 50px'
+        }} />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -234,7 +243,7 @@ function HorizontalTimeline({ data, trackConfig }: any) {
   return (
     <div className="relative max-w-7xl mx-auto">
       {/* Track Column Headers - No boxes, floating style */}
-      <div className="grid grid-cols-3 gap-8 mb-16 sticky top-0 bg-gradient-to-b from-white via-white to-transparent pb-8 z-10">
+      <div className="grid grid-cols-3 gap-8 mb-16 sticky top-0 pb-8 z-10">
         {['education', 'research', 'venture'].map((track) => {
           const config = trackConfig[track as keyof typeof trackConfig]
           const Icon = config.icon
@@ -359,16 +368,16 @@ function DesktopTimelineCard({ item, trackConfig, delay }: any) {
         {/* Gradient accent line (left side) */}
         <div className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${gradient} rounded-full`} />
 
-        {/* Content */}
-        <div className="pl-6 h-full flex flex-col">
+        {/* Content - subtle background to cover line, no borders */}
+        <div className="pl-6 pr-2 py-4 h-full flex flex-col bg-white/80 backdrop-blur-sm relative z-10">
           {/* Track icon */}
           <motion.div
             whileHover={{ scale: 1.1, rotate: 5 }}
             className="relative mb-4 w-fit"
           >
             <div className={`absolute inset-0 bg-gradient-to-br ${gradient} rounded-full blur-lg opacity-40`} />
-            <div className={`relative w-14 h-14 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg`}>
-              <Icon className="w-7 h-7 text-white" strokeWidth={2.5} />
+            <div className={`relative w-12 h-12 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg`}>
+              <Icon className="w-6 h-6 text-white" strokeWidth={2.5} />
             </div>
           </motion.div>
 
@@ -378,28 +387,14 @@ function DesktopTimelineCard({ item, trackConfig, delay }: any) {
               {item.title}
             </h4>
 
-            <p className="text-sm text-gray-600 mb-3 font-medium">{item.subtitle}</p>
-            <p className="text-sm text-gray-500 mb-4 leading-relaxed">
+            <p className="text-sm text-gray-700 mb-3 font-medium">{item.subtitle}</p>
+            <p className="text-sm text-gray-600 mb-4 leading-relaxed">
               {renderWithEmphasis(item.description, gradient)}
             </p>
 
-            {/* Image preview button - simplified with caption placeholder */}
-            <motion.button
-              whileHover={{ scale: 1.02, y: -1 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setImageOpen(true)}
-              className={`w-full mb-4 group/img relative overflow-hidden rounded-lg bg-gradient-to-br ${gradient} p-[1px] shadow-md hover:shadow-lg transition-all`}
-            >
-              <div className="bg-white rounded-lg px-3 py-2 flex items-center gap-2">
-                <ImageIcon className="w-4 h-4 text-gray-400 flex-shrink-0" strokeWidth={2} />
-                <p className="text-xs text-gray-500 italic truncate flex-1 text-left">
-                  {item.imageCaption}
-                </p>
-              </div>
-            </motion.button>
-
             {/* Impact badge */}
-            <div className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-gradient-to-r ${gradient} bg-opacity-10 w-fit`}>
+            <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r ${gradient} bg-opacity-10 w-fit`}>
+              <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${gradient}`} />
               <span className={`text-xs font-semibold bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}>
                 {item.impact}
               </span>

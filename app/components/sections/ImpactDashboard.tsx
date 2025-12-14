@@ -57,7 +57,7 @@ const impactData = [
 
 export default function ImpactDashboard() {
   return (
-    <section className="relative py-20 lg:py-32 overflow-hidden">
+    <section className="relative pt-10 lg:pt-16 pb-20 lg:pb-32 overflow-hidden">
       {/* Background matching hero theme */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-teal-50/40" />
