@@ -165,11 +165,12 @@ export default function ContactSection() {
                   Send a Message
                 </h3>
 
-                <form className="space-y-3.5">
+                <form action="https://formspree.io/f/xovgbbqd" method="POST" className="space-y-3.5">
                   <div>
                     <label className="block text-xs md:text-sm font-medium mb-1.5 text-gray-700">Name *</label>
                     <input
                       type="text"
+                      name="name"
                       required
                       className="w-full px-3 py-2 md:px-4 md:py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition"
                       placeholder="Your name"
@@ -180,6 +181,7 @@ export default function ContactSection() {
                     <label className="block text-xs md:text-sm font-medium mb-1.5 text-gray-700">Email *</label>
                     <input
                       type="email"
+                      name="email"
                       required
                       className="w-full px-3 py-2 md:px-4 md:py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition"
                       placeholder="your@email.com"
@@ -190,6 +192,7 @@ export default function ContactSection() {
                     <label className="block text-xs md:text-sm font-medium mb-1.5 text-gray-700">Organization</label>
                     <input
                       type="text"
+                      name="organization"
                       className="w-full px-3 py-2 md:px-4 md:py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition"
                       placeholder="Company/Institution (optional)"
                     />
@@ -198,10 +201,10 @@ export default function ContactSection() {
                   <div>
                     <label className="block text-xs md:text-sm font-medium mb-1.5 text-gray-700">I'm interested in:</label>
                     <div className="grid grid-cols-2 gap-2">
-                      <Checkbox label="Collaboration" />
-                      <Checkbox label="Speaking" />
-                      <Checkbox label="Opportunities" />
-                      <Checkbox label="Other" />
+                      <Checkbox label="Collaboration" name="interest" />
+                      <Checkbox label="Speaking" name="interest" />
+                      <Checkbox label="Opportunities" name="interest" />
+                      <Checkbox label="Other" name="interest" />
                     </div>
                   </div>
 
@@ -209,6 +212,7 @@ export default function ContactSection() {
                     <label className="block text-xs md:text-sm font-medium mb-1.5 text-gray-700">Message *</label>
                     <textarea
                       required
+                      name="message"
                       rows={5}
                       className="w-full px-3 py-2 md:px-4 md:py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition resize-none"
                       placeholder="Your message..."
@@ -269,10 +273,15 @@ function DownloadLink({ icon: Icon, label, href }: { icon: any; label: string; h
   )
 }
 
-function Checkbox({ label }: { label: string }) {
+function Checkbox({ label, name }: { label: string; name?: string }) {
   return (
     <label className="flex items-center gap-2 cursor-pointer">
-      <input type="checkbox" className="w-3.5 h-3.5 text-purple-500 border-gray-300 rounded focus:ring-purple-400" />
+      <input
+        type="checkbox"
+        name={name}
+        value={label}
+        className="w-3.5 h-3.5 text-purple-500 border-gray-300 rounded focus:ring-purple-400"
+      />
       <span className="text-xs md:text-sm text-gray-700">{label}</span>
     </label>
   )
