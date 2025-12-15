@@ -141,20 +141,13 @@ export default function ContactSection() {
                 <div>
                   <h4 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400" />
-                    Download Materials
+                    Download CV
                   </h4>
-                  <div className="flex flex-col gap-2">
-                    <DownloadLink
-                      icon={FileText}
-                      label="Full CV (PDF)"
-                      href="/pdfs/CV_Rumana_Rashid.pdf"
-                    />
-                    <DownloadLink
-                      icon={FileText}
-                      label="Cover Letter"
-                      href="/pdfs/CL_Rumana_Rashid_Avoro_Capital.pdf"
-                    />
-                  </div>
+                  <DownloadLink
+                    icon={FileText}
+                    label="Full CV (PDF)"
+                    href="/pdfs/CV_Rumana_Rashid.pdf"
+                  />
                 </div>
               </div>
             </motion.div>
