@@ -10,9 +10,9 @@ export default function ContactSection() {
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-white via-purple-50/30 to-teal-50/40" />
 
-        {/* Animated gradient orbs */}
-        <div className="absolute top-0 -right-40 md:right-10 w-[400px] md:w-[500px] h-[400px] md:h-[500px] bg-gradient-to-br from-teal-200/15 to-cyan-200/15 rounded-full blur-3xl animate-blob" />
-        <div className="absolute bottom-0 -left-40 md:left-10 w-[400px] md:w-[500px] h-[400px] md:h-[500px] bg-gradient-to-br from-purple-200/15 to-pink-200/15 rounded-full blur-3xl animate-blob animation-delay-2000" />
+        {/* Animated gradient orbs - single on mobile for performance, all on desktop */}
+        <div className="absolute top-0 -right-40 md:right-10 w-[400px] md:w-[500px] h-[400px] md:h-[500px] bg-gradient-to-br from-teal-200/15 to-cyan-200/15 rounded-full blur-2xl md:blur-3xl animate-blob" />
+        <div className="hidden md:block absolute bottom-0 -left-40 md:left-10 w-[400px] md:w-[500px] h-[400px] md:h-[500px] bg-gradient-to-br from-purple-200/15 to-pink-200/15 rounded-full blur-3xl animate-blob animation-delay-2000" />
 
         {/* Grid pattern */}
         <div className="absolute inset-0 opacity-[0.03]" style={{

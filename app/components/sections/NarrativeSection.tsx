@@ -52,10 +52,10 @@ export default function NarrativeSection() {
           {/* White base with gradient */}
           <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-teal-50/40" />
 
-          {/* Animated gradient orbs - matching hero */}
-          <div className="absolute top-20 -right-20 md:right-20 w-[400px] md:w-[500px] h-[400px] md:h-[500px] bg-gradient-to-br from-teal-200/30 to-cyan-200/30 rounded-full blur-3xl animate-blob" />
-          <div className="absolute bottom-20 -left-20 md:left-20 w-[400px] md:w-[500px] h-[400px] md:h-[500px] bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl animate-blob animation-delay-2000" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[500px] h-[400px] md:h-[500px] bg-gradient-to-br from-amber-200/20 to-orange-200/20 rounded-full blur-3xl animate-blob animation-delay-4000" />
+          {/* Animated gradient orbs - single on mobile for performance, all 3 on desktop */}
+          <div className="absolute top-20 -right-20 md:right-20 w-[400px] md:w-[500px] h-[400px] md:h-[500px] bg-gradient-to-br from-teal-200/30 to-cyan-200/30 rounded-full blur-2xl md:blur-3xl animate-blob" />
+          <div className="hidden md:block absolute bottom-20 -left-20 md:left-20 w-[400px] md:w-[500px] h-[400px] md:h-[500px] bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl animate-blob animation-delay-2000" />
+          <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[500px] h-[400px] md:h-[500px] bg-gradient-to-br from-amber-200/20 to-orange-200/20 rounded-full blur-3xl animate-blob animation-delay-4000" />
 
           {/* Grid pattern */}
           <div className="absolute inset-0 opacity-[0.04]" style={{

@@ -25,9 +25,9 @@ export default function SkillsExpertise() {
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-teal-50/40" />
 
-        {/* Animated gradient orbs */}
-        <div className="absolute top-20 right-20 w-[500px] h-[500px] bg-gradient-to-br from-teal-200/20 to-cyan-200/20 rounded-full blur-3xl animate-blob" />
-        <div className="absolute bottom-20 left-20 w-[500px] h-[500px] bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-3xl animate-blob animation-delay-2000" />
+        {/* Animated gradient orbs - single on mobile for performance, all on desktop */}
+        <div className="absolute top-20 right-20 w-[500px] h-[500px] bg-gradient-to-br from-teal-200/20 to-cyan-200/20 rounded-full blur-2xl md:blur-3xl animate-blob" />
+        <div className="hidden md:block absolute bottom-20 left-20 w-[500px] h-[500px] bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-3xl animate-blob animation-delay-2000" />
 
         {/* Grid pattern */}
         <div className="absolute inset-0 opacity-[0.03]" style={{

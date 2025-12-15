@@ -1,15 +1,30 @@
+import dynamic from 'next/dynamic'
 import NavigationHeader from './components/NavigationHeader'
 import HeroSection from './components/sections/HeroSection'
 import NarrativeSection from './components/sections/NarrativeSection'
 import ImpactDashboard from './components/sections/ImpactDashboard'
-import ExpertiseTimeline from './components/sections/ExpertiseTimeline'
-import SignatureProjects from './components/sections/SignatureProjects'
-import PublicationsSection from './components/sections/PublicationsSection'
-import ThoughtLeadership from './components/sections/ThoughtLeadership'
 import SkillsExpertise from './components/sections/SkillsExpertise'
-import AwardsRecognition from './components/sections/AwardsRecognition'
-import CurrentFocus from './components/sections/CurrentFocus'
-import ContactSection from './components/sections/ContactSection'
+import ExpertiseTimeline from './components/sections/ExpertiseTimeline'
+
+// Lazy load below-fold sections for better performance
+const SignatureProjects = dynamic(() => import('./components/sections/SignatureProjects'), {
+  loading: () => <div className="min-h-screen" />
+})
+const PublicationsSection = dynamic(() => import('./components/sections/PublicationsSection'), {
+  loading: () => <div className="min-h-screen" />
+})
+const ThoughtLeadership = dynamic(() => import('./components/sections/ThoughtLeadership'), {
+  loading: () => <div className="min-h-screen" />
+})
+const AwardsRecognition = dynamic(() => import('./components/sections/AwardsRecognition'), {
+  loading: () => <div className="min-h-screen" />
+})
+const CurrentFocus = dynamic(() => import('./components/sections/CurrentFocus'), {
+  loading: () => <div className="min-h-screen" />
+})
+const ContactSection = dynamic(() => import('./components/sections/ContactSection'), {
+  loading: () => <div className="min-h-screen" />
+})
 
 export default function Home() {
   return (

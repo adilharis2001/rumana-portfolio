@@ -22,10 +22,10 @@ export default function HeroSection() {
         {/* Gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-teal-50/40" />
 
-        {/* Animated gradient orbs */}
-        <div className="absolute top-20 right-20 w-[500px] h-[500px] bg-gradient-to-br from-teal-200/30 to-cyan-200/30 rounded-full blur-3xl animate-blob" />
-        <div className="absolute bottom-20 left-20 w-[500px] h-[500px] bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl animate-blob animation-delay-2000" />
-        <div className="absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-gradient-to-br from-amber-200/20 to-orange-200/20 rounded-full blur-3xl animate-blob animation-delay-4000" />
+        {/* Animated gradient orbs - single on mobile for performance, all 3 on desktop */}
+        <div className="absolute top-20 right-20 w-[500px] h-[500px] bg-gradient-to-br from-teal-200/30 to-cyan-200/30 rounded-full blur-2xl md:blur-3xl animate-blob" />
+        <div className="hidden md:block absolute bottom-20 left-20 w-[500px] h-[500px] bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl animate-blob animation-delay-2000" />
+        <div className="hidden md:block absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-gradient-to-br from-amber-200/20 to-orange-200/20 rounded-full blur-3xl animate-blob animation-delay-4000" />
 
         {/* Enhanced grid pattern with animation */}
         <div className="absolute inset-0 opacity-[0.04]" style={{
