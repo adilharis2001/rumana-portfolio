@@ -11,7 +11,7 @@ const narrativeContent = {
   perspectives: [
     {
       icon: Stethoscope,
-      role: "As a physician",
+      role: "As a clinician",
       insight: "I see patients' unmet needs.",
       color: "teal",
       gradient: "from-teal-400 to-cyan-400",
@@ -111,19 +111,18 @@ export default function NarrativeSection() {
                       className="relative mb-6 mx-auto w-fit"
                     >
                       {/* Gradient glow background */}
-                      <div className={`absolute inset-0 bg-gradient-to-br ${perspective.gradient} rounded-full blur-2xl opacity-40`} />
+                      <div className={`absolute inset-0 bg-gradient-to-br ${perspective.gradient} rounded-2xl blur-2xl opacity-40`} />
 
-                      {/* Icon container */}
-                      <div className={`relative w-20 h-20 lg:w-24 lg:h-24 rounded-full bg-gradient-to-br ${perspective.gradient} flex items-center justify-center shadow-xl`}>
+                      {/* Icon container - rounded square */}
+                      <div className={`relative w-20 h-20 lg:w-24 lg:h-24 rounded-2xl bg-gradient-to-br ${perspective.gradient} flex items-center justify-center shadow-xl`}>
                         <perspective.icon className="w-10 h-10 lg:w-12 lg:h-12 text-white" strokeWidth={2.5} />
                       </div>
 
-                      {/* Pulsing ring */}
+                      {/* Pulsing ring - rounded square */}
                       <motion.div
                         animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
                         transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
-                        className={`absolute inset-0 rounded-full border-2 border-gradient-to-br ${perspective.gradient}`}
-                        style={{ borderImage: `linear-gradient(to bottom right, ${perspective.color}) 1` }}
+                        className={`absolute inset-0 rounded-2xl border-2 bg-gradient-to-br ${perspective.gradient}`}
                       />
                     </motion.div>
 
@@ -168,8 +167,8 @@ export default function NarrativeSection() {
                       whileHover={{ scale: 1.1 }}
                       className="relative flex-shrink-0"
                     >
-                      <div className={`absolute inset-0 bg-gradient-to-br ${perspective.gradient} rounded-full blur-xl opacity-40`} />
-                      <div className={`relative w-16 h-16 rounded-full bg-gradient-to-br ${perspective.gradient} flex items-center justify-center shadow-lg`}>
+                      <div className={`absolute inset-0 bg-gradient-to-br ${perspective.gradient} rounded-2xl blur-xl opacity-40`} />
+                      <div className={`relative w-16 h-16 rounded-2xl bg-gradient-to-br ${perspective.gradient} flex items-center justify-center shadow-lg`}>
                         <perspective.icon className="w-8 h-8 text-white" strokeWidth={2.5} />
                       </div>
                     </motion.div>

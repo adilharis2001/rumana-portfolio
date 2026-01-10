@@ -114,7 +114,7 @@ function ResearchSection() {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6 md:gap-8 pl-4 md:pl-6">
+      <div className="grid lg:grid-cols-3 gap-6 md:gap-8 pl-4 md:pl-6">
         {/* Computational */}
         <div className="space-y-4 md:space-y-6">
           <div className="flex items-center gap-2 mb-3 md:mb-4">
@@ -150,6 +150,7 @@ function ResearchSection() {
           </div>
 
           <SkillCategory title="Imaging Modalities">
+            <SkillTag>Multiplexed Fluorescence Imaging</SkillTag>
             <SkillTag>Confocal Microscopy</SkillTag>
             <SkillTag>Fluorescence</SkillTag>
             <SkillTag>Electron Microscopy</SkillTag>
@@ -170,6 +171,28 @@ function ResearchSection() {
             <SkillTag>Multiplexed Imaging</SkillTag>
             <SkillTag>Single-cell Analysis</SkillTag>
           </SkillCategory>
+        </div>
+
+        {/* Biological Focus Areas */}
+        <div className="space-y-4 md:space-y-6">
+          <div className="flex items-center gap-2 mb-3 md:mb-4">
+            <Brain className="w-5 h-5 md:w-6 md:h-6 text-purple-600" />
+            <h4 className="text-lg md:text-xl font-bold text-gray-900">Biological Focus Areas</h4>
+          </div>
+
+          <div className="flex flex-wrap gap-1.5 md:gap-2">
+            <SkillTag>Oncology</SkillTag>
+            <SkillTag>Cancer</SkillTag>
+            <SkillTag>DNA Damage</SkillTag>
+            <SkillTag>Replication Stress</SkillTag>
+            <SkillTag>Biomarkers</SkillTag>
+            <SkillTag>Spatial Analysis</SkillTag>
+            <SkillTag>Pathology</SkillTag>
+            <SkillTag>Glioblastoma</SkillTag>
+            <SkillTag>Brain Tumors</SkillTag>
+            <SkillTag>Clinical Trials</SkillTag>
+            <SkillTag>Diagnostics</SkillTag>
+          </div>
         </div>
       </div>
     </motion.div>

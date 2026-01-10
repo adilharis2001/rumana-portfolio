@@ -81,7 +81,7 @@ const awards = [
 const media = [
   {
     outlet: 'Pittsburgh Channel 4 News',
-    title: 'MD/PhD Student Develops AI for Cancer Treatment',
+    title: 'Medical Student on COVID Vaccine',
   },
   {
     outlet: 'MSTP Student Spotlight',
@@ -101,7 +101,7 @@ const speaking = [
   },
   {
     event: 'Harvard Ludwig Cancer Center',
-    topic: 'AI Applications in Precision Oncology',
+    topic: 'Replication Stress Panel for Oncology',
     year: '2023',
   },
 ]
@@ -109,11 +109,26 @@ const speaking = [
 const teaching = [
   {
     course: 'Deep Learning for Biomedical Applications',
-    role: 'Instructor',
+    role: 'Teaching Assistant',
   },
   {
     course: 'Computationally-Enabled Medicine',
-    role: 'Instructor',
+    role: 'Teaching Assistant',
+  },
+  {
+    course: 'Precision Medicine I: Genomic Medicine',
+    institution: 'Harvard Medical School',
+    role: 'Teaching Assistant',
+  },
+  {
+    course: 'Precision Medicine II: Integrating Clinical and Genomic Data',
+    institution: 'Harvard Medical School',
+    role: 'Teaching Assistant',
+  },
+  {
+    course: 'Publication and Presentation',
+    institution: 'University of Pittsburgh',
+    role: 'Teaching Assistant',
   },
 ]
 
@@ -268,6 +283,9 @@ export default function AwardsRecognition() {
                   {teaching.map((item, i) => (
                     <div key={i} className="space-y-0.5">
                       <div className="text-sm font-semibold text-gray-900">{item.course}</div>
+                      {item.institution && (
+                        <div className="text-xs text-gray-600 font-medium">{item.institution}</div>
+                      )}
                       <div className="text-xs text-gray-600">{item.role}</div>
                     </div>
                   ))}

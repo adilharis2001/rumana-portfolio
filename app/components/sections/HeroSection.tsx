@@ -7,7 +7,7 @@ import { useRef } from 'react'
 
 const roles = [
   "MD/PhD Candidate",
-  "AI Researcher",
+  "Oncology AI Researcher",
   "Biotech Investor",
   "Healthcare Innovator"
 ]
@@ -19,8 +19,8 @@ export default function HeroSection() {
     >
       {/* Enhanced Background with Visual Interest */}
       <div className="absolute inset-0">
-        {/* Gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-teal-50/40" />
+        {/* Gradient background - lighter for less contrast with profile image */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-50/30 to-teal-50/20" />
 
         {/* Animated gradient orbs - single on mobile for performance, all 3 on desktop */}
         <div className="absolute top-20 right-20 w-[500px] h-[500px] bg-gradient-to-br from-teal-200/30 to-cyan-200/30 rounded-full blur-2xl md:blur-3xl animate-blob" />
@@ -256,9 +256,10 @@ function VennDiagramEnhanced() {
             r="140"
             fill="url(#grad1)"
             stroke={circles[0].color}
-            strokeWidth="3"
+            strokeWidth="0.5"
+            strokeOpacity="0.3"
             filter={`url(#glow-clinical)`}
-            whileHover={{ scale: 1.05, strokeWidth: 5 }}
+            whileHover={{ scale: 1.05, strokeWidth: 1 }}
             className="cursor-pointer transition-all"
           />
 
@@ -269,9 +270,10 @@ function VennDiagramEnhanced() {
             r="140"
             fill="url(#grad2)"
             stroke={circles[1].color}
-            strokeWidth="3"
+            strokeWidth="0.5"
+            strokeOpacity="0.3"
             filter={`url(#glow-research)`}
-            whileHover={{ scale: 1.05, strokeWidth: 5 }}
+            whileHover={{ scale: 1.05, strokeWidth: 1 }}
             className="cursor-pointer transition-all"
           />
 
@@ -282,9 +284,10 @@ function VennDiagramEnhanced() {
             r="140"
             fill="url(#grad3)"
             stroke={circles[2].color}
-            strokeWidth="3"
+            strokeWidth="0.5"
+            strokeOpacity="0.3"
             filter={`url(#glow-venture)`}
-            whileHover={{ scale: 1.05, strokeWidth: 5 }}
+            whileHover={{ scale: 1.05, strokeWidth: 1 }}
             className="cursor-pointer transition-all"
           />
         </motion.g>
@@ -343,10 +346,10 @@ function VennDiagramEnhanced() {
 
       {/* Stats around the diagram */}
       <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-4 py-2 border border-gray-200 shadow-md">
-        <p className="text-gray-800 text-sm font-semibold">h-index: 10</p>
+        <p className="text-gray-800 text-sm font-semibold">12+ Specialties</p>
       </div>
       <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg px-4 py-2 border border-gray-200 shadow-md">
-        <p className="text-gray-800 text-sm font-semibold">12+ Specialties</p>
+        <p className="text-gray-800 text-sm font-semibold">h-index: 10</p>
       </div>
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-sm rounded-lg px-4 py-2 border border-gray-200 shadow-md">
         <p className="text-gray-800 text-sm font-semibold">15+ Publications</p>

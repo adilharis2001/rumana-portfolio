@@ -37,7 +37,7 @@ const impactData = [
     bgGradient: 'from-amber-50 to-orange-50',
     metrics: [
       { value: 129, prefix: '$', suffix: 'M', label: 'Allocated', sparkline: [20, 45, 75, 95, 115, 129] },
-      { value: 30, suffix: '+', label: 'Evaluated', sparkline: [10, 15, 20, 24, 28, 30] },
+      { value: 100, suffix: '+', label: 'Companies Evaluated', sparkline: [20, 40, 60, 75, 90, 100] },
       { value: 8, label: 'Investments', sparkline: [2, 3, 5, 6, 7, 8] },
     ],
   },
