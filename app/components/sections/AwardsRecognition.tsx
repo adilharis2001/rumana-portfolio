@@ -120,16 +120,6 @@ const teaching = [
     institution: 'Harvard Medical School',
     role: 'Teaching Assistant',
   },
-  {
-    course: 'Precision Medicine II: Integrating Clinical and Genomic Data',
-    institution: 'Harvard Medical School',
-    role: 'Teaching Assistant',
-  },
-  {
-    course: 'Publication and Presentation',
-    institution: 'University of Pittsburgh',
-    role: 'Teaching Assistant',
-  },
 ]
 
 export default function AwardsRecognition() {
