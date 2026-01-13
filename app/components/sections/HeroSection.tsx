@@ -333,7 +333,7 @@ function VennDiagramEnhanced() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.2 }}
           >
-            <circle cx="300" cy="240" r="50" fill="rgba(94, 234, 212, 0.1)" stroke="#5EEAD4" strokeWidth="2" />
+            <circle cx="300" cy="240" r="50" fill="rgba(251, 113, 133, 0.15)" stroke="#FB7185" strokeWidth="2" />
             <text x="300" y="235" textAnchor="middle" className="text-base fill-gray-800" style={{ fontSize: '16px', fontWeight: 'bold' }}>
               Healthcare
             </text>
