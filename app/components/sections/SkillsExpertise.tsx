@@ -1,9 +1,15 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Code, Microscope, TrendingUp, Stethoscope, Activity, Heart, Brain, Baby, Eye, Ear, Syringe, Pill } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import {
+  Code2, Microscope, TrendingUp, Stethoscope, Activity, Heart,
+  Brain, Baby, Eye, Ear, Syringe, FlaskConical, Database,
+} from 'lucide-react'
 
-const specialties = [
+/* ─── Data (unchanged from original) ─────────────────────────── */
+
+const clinicalSpecialties = [
   { name: 'Internal Medicine', icon: Stethoscope },
   { name: 'Surgery', icon: Activity },
   { name: 'Neurology', icon: Brain },
@@ -18,254 +24,269 @@ const specialties = [
   { name: 'Family Medicine', icon: Heart },
 ]
 
-export default function SkillsExpertise() {
-  return (
-    <section className="relative py-16 md:py-24 overflow-hidden">
-      {/* Background matching hero theme */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-teal-50/40" />
+const investmentSkills = [
+  { label: 'Due Diligence', tags: ['Data room analysis', 'Scientific validation', 'KOL interviews', 'Risk assessment'] },
+  { label: 'Financial Analysis', tags: ['Valuation frameworks', 'Market sizing', 'Investment memos', 'LP reporting'] },
+  { label: 'Strategy', tags: ['Investment thesis', 'Portfolio management', 'Market analysis', 'VC partnerships'] },
+]
 
-        {/* Animated gradient orbs - single on mobile for performance, all on desktop */}
-        <div className="absolute top-20 right-20 w-[500px] h-[500px] bg-gradient-to-br from-teal-200/20 to-cyan-200/20 rounded-full blur-2xl md:blur-3xl animate-blob" />
-        <div className="hidden md:block absolute bottom-20 left-20 w-[500px] h-[500px] bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-3xl animate-blob animation-delay-2000" />
+/* ─── Neural canvas (subtle background for computational card) ── */
+function NeuralCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: 'linear-gradient(rgba(43, 158, 179, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(43, 158, 179, 0.1) 1px, transparent 1px)',
-          backgroundSize: '50px 50px'
-        }} />
-      </div>
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
 
-      <div className="container mx-auto px-4 relative z-10">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-3xl md:text-5xl font-bold mb-8 md:mb-16 text-gray-900 text-center"
-        >
-          Skills & Expertise
-        </motion.h2>
+    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight }
+    resize()
 
-        <div className="max-w-7xl mx-auto space-y-12 md:space-y-20">
-          {/* Clinical Section */}
-          <ClinicalSection />
+    const nodes = [
+      { x: 0.12, y: 0.25 }, { x: 0.12, y: 0.5 }, { x: 0.12, y: 0.75 },
+      { x: 0.38, y: 0.18 }, { x: 0.38, y: 0.42 }, { x: 0.38, y: 0.65 }, { x: 0.38, y: 0.88 },
+      { x: 0.65, y: 0.28 }, { x: 0.65, y: 0.52 }, { x: 0.65, y: 0.76 },
+      { x: 0.88, y: 0.38 }, { x: 0.88, y: 0.62 },
+    ]
+    const edges = [
+      [0, 3], [0, 4], [1, 3], [1, 4], [1, 5], [2, 4], [2, 5], [2, 6],
+      [3, 7], [3, 8], [4, 7], [4, 8], [4, 9], [5, 8], [5, 9], [6, 9],
+      [7, 10], [7, 11], [8, 10], [8, 11], [9, 11],
+    ]
 
-          {/* Research & Tech Section */}
-          <ResearchSection />
+    let t = 0, animId: number
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      const w = canvas.width, h = canvas.height
+      edges.forEach(([a, b], i) => {
+        const pulse = (Math.sin(t * 0.04 + i * 0.6) + 1) / 2
+        ctx.beginPath()
+        ctx.moveTo(nodes[a].x * w, nodes[a].y * h)
+        ctx.lineTo(nodes[b].x * w, nodes[b].y * h)
+        ctx.strokeStyle = `rgba(139,92,246,${0.06 + pulse * 0.14})`
+        ctx.lineWidth = 1; ctx.stroke()
+      })
+      nodes.forEach((n, i) => {
+        const pulse = (Math.sin(t * 0.05 + i * 0.8) + 1) / 2
+        const r = 3 + pulse * 2
+        const grd = ctx.createRadialGradient(n.x * w, n.y * h, 0, n.x * w, n.y * h, r * 3)
+        grd.addColorStop(0, `rgba(167,139,250,${0.55 + pulse * 0.35})`)
+        grd.addColorStop(1, 'rgba(139,92,246,0)')
+        ctx.beginPath(); ctx.arc(n.x * w, n.y * h, r, 0, Math.PI * 2)
+        ctx.fillStyle = grd; ctx.fill()
+      })
+      t++; animId = requestAnimationFrame(draw)
+    }
+    draw()
+    window.addEventListener('resize', resize)
+    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize) }
+  }, [])
 
-          {/* Business Section */}
-          <BusinessSection />
-        </div>
-      </div>
-    </section>
-  )
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none opacity-70" />
 }
 
-function ClinicalSection() {
+/* ─── Shared helpers ──────────────────────────────────────────── */
+
+function BentoCard({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="space-y-4 md:space-y-8"
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ delay, duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+      className={`relative rounded-2xl border border-gray-200/80 bg-white/70 backdrop-blur-sm overflow-hidden ${className}`}
     >
-      {/* Section Header with Gradient Accent */}
-      <div className="relative">
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-teal-400 to-cyan-500 rounded-full" />
-        <div className="pl-4 md:pl-6">
-          <h3 className="text-xl md:text-3xl font-bold mb-1 md:mb-2 text-gray-900">Clinical Medicine</h3>
-          <p className="text-gray-600 text-sm md:text-lg">1,000+ patients across 12+ specialties • UPMC clinical rotations</p>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 pl-4 md:pl-6">
-        {specialties.map((specialty, index) => (
-          <motion.div
-            key={specialty.name}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.03 }}
-            className="flex items-center gap-2 p-2 md:p-3 border border-gray-200 rounded-lg hover:border-teal-300 hover:shadow-md transition-all group"
-          >
-            <specialty.icon className="w-4 h-4 md:w-5 md:h-5 text-teal-600 flex-shrink-0" />
-            <span className="font-medium text-xs md:text-sm text-gray-700 group-hover:text-gray-900">{specialty.name}</span>
-          </motion.div>
-        ))}
-      </div>
+      {children}
     </motion.div>
   )
 }
 
-function ResearchSection() {
+function Tag({ children, color = 'gray' }: { children: React.ReactNode; color?: 'gray' | 'teal' | 'purple' | 'amber' }) {
+  const styles = {
+    gray: 'bg-gray-50   border-gray-200   text-gray-700   hover:border-gray-400',
+    teal: 'bg-teal-50   border-teal-200   text-teal-700   hover:border-teal-400',
+    purple: 'bg-purple-50 border-purple-200 text-purple-700 hover:border-purple-400',
+    amber: 'bg-amber-50  border-amber-200  text-amber-700  hover:border-amber-400',
+  }
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="space-y-4 md:space-y-8"
-    >
-      {/* Section Header with Gradient Accent */}
-      <div className="relative">
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-400 to-pink-500 rounded-full" />
-        <div className="pl-4 md:pl-6">
-          <h3 className="text-xl md:text-3xl font-bold mb-1 md:mb-2 text-gray-900">Research & Technology</h3>
-          <p className="text-gray-600 text-sm md:text-lg">Computational skills, laboratory expertise, and AI/ML proficiency</p>
-        </div>
-      </div>
-
-      <div className="grid lg:grid-cols-3 gap-6 md:gap-8 pl-4 md:pl-6">
-        {/* Computational */}
-        <div className="space-y-4 md:space-y-6">
-          <div className="flex items-center gap-2 mb-3 md:mb-4">
-            <Code className="w-5 h-5 md:w-6 md:h-6 text-purple-600" />
-            <h4 className="text-lg md:text-xl font-bold text-gray-900">Computational Skills</h4>
-          </div>
-
-          <SkillCategory title="Programming Languages">
-            <SkillTag>Python</SkillTag>
-            <SkillTag>R</SkillTag>
-            <SkillTag>MATLAB</SkillTag>
-            <SkillTag>Unix/Linux</SkillTag>
-          </SkillCategory>
-
-          <SkillCategory title="ML/AI">
-            <SkillTag>Machine Learning</SkillTag>
-            <SkillTag>Deep Learning</SkillTag>
-            <SkillTag>TensorFlow/PyTorch</SkillTag>
-          </SkillCategory>
-
-          <SkillCategory title="Infrastructure">
-            <SkillTag>Jupyter</SkillTag>
-            <SkillTag>Cloud Computing</SkillTag>
-            <SkillTag>AWS</SkillTag>
-          </SkillCategory>
-        </div>
-
-        {/* Laboratory */}
-        <div className="space-y-4 md:space-y-6">
-          <div className="flex items-center gap-2 mb-3 md:mb-4">
-            <Microscope className="w-5 h-5 md:w-6 md:h-6 text-purple-600" />
-            <h4 className="text-lg md:text-xl font-bold text-gray-900">Laboratory Skills</h4>
-          </div>
-
-          <SkillCategory title="Imaging Modalities">
-            <SkillTag>Multiplexed Fluorescence Imaging</SkillTag>
-            <SkillTag>Confocal Microscopy</SkillTag>
-            <SkillTag>Fluorescence</SkillTag>
-            <SkillTag>Electron Microscopy</SkillTag>
-            <SkillTag>Live-cell Imaging</SkillTag>
-            <SkillTag>FRAP</SkillTag>
-            <SkillTag>Expansion Microscopy</SkillTag>
-            <SkillTag>Focused Ion Beam</SkillTag>
-          </SkillCategory>
-
-          <SkillCategory title="Molecular Biology">
-            <SkillTag>Cell Culture</SkillTag>
-            <SkillTag>Sequencing</SkillTag>
-            <SkillTag>Immunostaining</SkillTag>
-          </SkillCategory>
-
-          <SkillCategory title="Platforms">
-            <SkillTag>CyCIF</SkillTag>
-            <SkillTag>Multiplexed Imaging</SkillTag>
-            <SkillTag>Single-cell Analysis</SkillTag>
-          </SkillCategory>
-        </div>
-
-        {/* Biological Focus Areas */}
-        <div className="space-y-4 md:space-y-6">
-          <div className="flex items-center gap-2 mb-3 md:mb-4">
-            <Brain className="w-5 h-5 md:w-6 md:h-6 text-purple-600" />
-            <h4 className="text-lg md:text-xl font-bold text-gray-900">Biological Focus Areas</h4>
-          </div>
-
-          <div className="flex flex-wrap gap-1.5 md:gap-2">
-            <SkillTag>Oncology</SkillTag>
-            <SkillTag>Cancer</SkillTag>
-            <SkillTag>DNA Damage</SkillTag>
-            <SkillTag>Replication Stress</SkillTag>
-            <SkillTag>Biomarkers</SkillTag>
-            <SkillTag>Spatial Analysis</SkillTag>
-            <SkillTag>Pathology</SkillTag>
-            <SkillTag>Glioblastoma</SkillTag>
-            <SkillTag>Brain Tumors</SkillTag>
-            <SkillTag>Clinical Trials</SkillTag>
-            <SkillTag>Diagnostics</SkillTag>
-          </div>
-        </div>
-      </div>
-    </motion.div>
+    <span className={`inline-block px-2.5 py-1 rounded-lg text-xs font-medium border transition-all cursor-default ${styles[color]}`}>
+      {children}
+    </span>
   )
 }
 
-function BusinessSection() {
-  const businessSkills = [
-    { category: 'Due Diligence', skills: ['Data room analysis', 'Scientific validation', 'KOL interviews', 'Competitive landscape', 'Risk assessment'] },
-    { category: 'Financial Analysis', skills: ['Valuation frameworks', 'Market sizing', 'Investment memos', 'LP reporting', 'Portfolio monitoring'] },
-    { category: 'Strategy', skills: ['Investment thesis development', 'Portfolio management', 'Market analysis', 'Pitch deck creation', 'VC partnerships'] },
-  ]
-
-  const allSkills = businessSkills.flatMap(cat => cat.skills.map(skill => ({ category: cat.category, skill })))
-
+function CardHeader({ icon: Icon, label, gradient }: { icon: React.ElementType; label: string; gradient: string }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="space-y-4 md:space-y-8"
-    >
-      {/* Section Header with Gradient Accent */}
-      <div className="relative">
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-amber-400 to-orange-500 rounded-full" />
-        <div className="pl-4 md:pl-6">
-          <h3 className="text-xl md:text-3xl font-bold mb-1 md:mb-2 text-gray-900">Business & Investment</h3>
-          <p className="text-gray-600 text-sm md:text-lg">Venture capital experience and strategic analysis capabilities</p>
-        </div>
+    <div className="flex items-center gap-2.5 mb-5">
+      <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${gradient} flex items-center justify-center shadow-sm flex-shrink-0`}>
+        <Icon className="w-4 h-4 text-white" strokeWidth={2.5} />
       </div>
-
-      {/* Skills organized by category - flowing layout */}
-      <div className="pl-4 md:pl-6 space-y-4 md:space-y-6">
-        {businessSkills.map((category, catIndex) => (
-          <div key={category.category} className="space-y-2 md:space-y-3">
-            <h4 className="text-base md:text-lg font-bold text-amber-600 flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 md:w-5 md:h-5" />
-              {category.category}
-            </h4>
-            <div className="flex flex-wrap gap-2">
-              {category.skills.map((skill, index) => (
-                <motion.span
-                  key={skill}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: catIndex * 0.1 + index * 0.03 }}
-                  className="inline-block px-3 py-1.5 rounded-lg text-sm font-medium border border-gray-200 bg-gray-50 text-gray-700 hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 transition-all cursor-default"
-                >
-                  {skill}
-                </motion.span>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </motion.div>
-  )
-}
-
-function SkillCategory({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <h4 className="font-semibold mb-2 md:mb-3 text-sm md:text-base text-gray-900">{title}</h4>
-      <div className="flex flex-wrap gap-1.5 md:gap-2">{children}</div>
+      <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">{label}</span>
     </div>
   )
 }
 
-function SkillTag({ children }: { children: React.ReactNode }) {
+function SubHeading({ children }: { children: React.ReactNode }) {
+  return <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{children}</h4>
+}
+
+/* ─── Main component ──────────────────────────────────────────── */
+
+export default function SkillsExpertise() {
   return (
-    <span className="inline-block px-2 md:px-3 py-1 md:py-1.5 rounded-lg text-xs md:text-sm font-medium border border-gray-200 bg-gray-50 text-gray-700 hover:border-purple-300 hover:bg-purple-50 hover:text-purple-700 transition-all cursor-default">
-      {children}
-    </span>
+    <section className="relative py-16 md:py-24 overflow-hidden">
+      {/* Background — identical to rest of site */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-teal-50/40" />
+        <div className="absolute top-20 right-20 w-[500px] h-[500px] bg-gradient-to-br from-teal-200/20 to-cyan-200/20 rounded-full blur-2xl md:blur-3xl animate-blob" />
+        <div className="hidden md:block absolute bottom-20 left-20 w-[500px] h-[500px] bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-3xl animate-blob animation-delay-2000" />
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(43,158,179,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(43,158,179,0.1) 1px,transparent 1px)', backgroundSize: '50px 50px' }} />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Section title */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12 md:mb-16"
+        >
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Skills &amp; Expertise</h2>
+          <div className="w-32 h-1 bg-gradient-to-r from-teal-500 via-purple-500 to-amber-500 rounded-full mx-auto" />
+        </motion.div>
+
+        <div className="max-w-6xl mx-auto space-y-4">
+
+          {/* ── Row 1: 3 symmetric research columns ── */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+            {/* ① Computational Skills */}
+            <BentoCard delay={0} className="p-6 bg-gradient-to-br from-purple-50/70 to-white border-purple-200/60">
+              <NeuralCanvas />
+              <div className="relative z-10">
+                <CardHeader icon={Code2} label="Computational Skills" gradient="from-purple-400 to-pink-400" />
+
+                <div className="space-y-4">
+                  <div>
+                    <SubHeading>Programming Languages</SubHeading>
+                    <div className="flex flex-wrap gap-1.5">
+                      {['Python', 'R', 'MATLAB', 'Unix/Linux'].map(s => <Tag key={s} color="purple">{s}</Tag>)}
+                    </div>
+                  </div>
+                  <div>
+                    <SubHeading>ML / AI</SubHeading>
+                    <div className="flex flex-wrap gap-1.5">
+                      {['Machine Learning', 'Deep Learning', 'TensorFlow/PyTorch'].map(s => <Tag key={s} color="purple">{s}</Tag>)}
+                    </div>
+                  </div>
+                  <div>
+                    <SubHeading>Infrastructure</SubHeading>
+                    <div className="flex flex-wrap gap-1.5">
+                      {['Jupyter', 'Cloud Computing', 'AWS'].map(s => <Tag key={s} color="purple">{s}</Tag>)}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </BentoCard>
+
+            {/* ② Laboratory Skills */}
+            <BentoCard delay={0.08} className="p-6 bg-gradient-to-br from-violet-50/50 to-white border-violet-200/50">
+              <CardHeader icon={Microscope} label="Laboratory Skills" gradient="from-violet-400 to-purple-500" />
+
+              <div className="space-y-4">
+                <div>
+                  <SubHeading>Imaging Modalities</SubHeading>
+                  <div className="flex flex-wrap gap-1.5">
+                    {['Multiplexed Fluorescence Imaging', 'Confocal Microscopy', 'Fluorescence', 'Electron Microscopy', 'Live-cell Imaging', 'FRAP', 'Expansion Microscopy', 'Focused Ion Beam'].map(s => <Tag key={s} color="purple">{s}</Tag>)}
+                  </div>
+                </div>
+                <div>
+                  <SubHeading>Molecular Biology</SubHeading>
+                  <div className="flex flex-wrap gap-1.5">
+                    {['Cell Culture', 'Sequencing', 'Immunostaining'].map(s => <Tag key={s} color="purple">{s}</Tag>)}
+                  </div>
+                </div>
+                <div>
+                  <SubHeading>Platforms</SubHeading>
+                  <div className="flex flex-wrap gap-1.5">
+                    {['CyCIF', 'Multiplexed Imaging', 'Single-cell Analysis'].map(s => <Tag key={s} color="purple">{s}</Tag>)}
+                  </div>
+                </div>
+              </div>
+            </BentoCard>
+
+            {/* ③ Biological Focus Areas */}
+            <BentoCard delay={0.16} className="p-6 bg-gradient-to-br from-gray-50/80 to-white">
+              <CardHeader icon={FlaskConical} label="Biological Focus Areas" gradient="from-gray-500 to-gray-600" />
+
+              <div className="flex flex-wrap gap-2">
+                {[
+                  'Oncology', 'Cancer', 'DNA Damage', 'Replication Stress',
+                  'Biomarkers', 'Spatial Analysis', 'Pathology', 'Glioblastoma',
+                  'Brain Tumors', 'Clinical Trials', 'Diagnostics',
+                ].map(s => <Tag key={s} color="gray">{s}</Tag>)}
+              </div>
+            </BentoCard>
+          </div>
+
+          {/* ── Row 2: Clinical Specialties — full width ── */}
+          <BentoCard delay={0.22} className="p-6 bg-gradient-to-r from-teal-50/60 via-white to-cyan-50/40 border-teal-200/50">
+            <div className="flex flex-col md:flex-row md:items-start gap-6">
+              <div className="md:w-52 flex-shrink-0">
+                <CardHeader icon={Stethoscope} label="Clinical Specialties" gradient="from-teal-400 to-cyan-400" />
+                <div className="space-y-0.5">
+                  <div className="text-3xl font-bold bg-gradient-to-br from-teal-500 to-cyan-500 bg-clip-text text-transparent">1,000+</div>
+                  <p className="text-xs text-gray-500">patients across 12+ specialties</p>
+                  <p className="text-xs text-gray-400 italic">UPMC Clinical Rotations</p>
+                </div>
+              </div>
+              <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                {clinicalSpecialties.map((s, i) => (
+                  <motion.div
+                    key={s.name}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.28 + i * 0.04, duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                    className="flex items-center gap-2 p-2.5 border border-gray-200 rounded-xl hover:border-teal-300 hover:bg-teal-50/50 hover:shadow-sm transition-all cursor-default"
+                  >
+                    <s.icon className="w-4 h-4 text-teal-500 flex-shrink-0" />
+                    <span className="text-xs font-medium text-gray-700 leading-tight">{s.name}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* ── Row 3: Business & Investment — full width ── */}
+          <BentoCard delay={0.28} className="p-6 md:p-8 bg-gradient-to-r from-amber-50/70 via-white to-orange-50/40 border-amber-200/50">
+            <div className="flex flex-col md:flex-row md:items-start gap-6">
+              <div className="md:w-52 flex-shrink-0">
+                <CardHeader icon={TrendingUp} label="Business & Investment" gradient="from-amber-400 to-orange-400" />
+                <div className="space-y-0.5">
+                  <div className="text-3xl font-bold bg-gradient-to-br from-amber-500 to-orange-500 bg-clip-text text-transparent">$129M</div>
+                  <p className="text-xs text-gray-500">deployed across 8 investments</p>
+                  <p className="text-xs text-gray-400 italic">100+ companies evaluated</p>
+                </div>
+              </div>
+              <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-6">
+                {investmentSkills.map(cat => (
+                  <div key={cat.label}>
+                    <p className="text-xs font-bold text-amber-600 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+                      <Database className="w-3.5 h-3.5" />{cat.label}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {cat.tags.map(t => <Tag key={t} color="amber">{t}</Tag>)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </BentoCard>
+
+        </div>
+      </div>
+    </section>
   )
 }
