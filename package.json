@@ -2,8 +2,10 @@
   "name": "rumana-portfolio",
   "version": "1.0.0",
   "scripts": {
+    "predev": "lsof -ti:3050 | xargs kill -9 || true",
     "dev": "next dev -p 3050",
     "build": "next build",
+    "prestart": "lsof -ti:3050 | xargs kill -9 || true",
     "start": "next start -p 3050",
     "lint": "next lint"
   },
