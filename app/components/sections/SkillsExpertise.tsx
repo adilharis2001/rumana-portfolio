@@ -110,7 +110,7 @@ function Tag({ children, color = 'gray' }: { children: React.ReactNode; color?: 
     amber: 'bg-amber-50  border-amber-200  text-amber-700  hover:border-amber-400',
   }
   return (
-    <span className={`inline-block px-2.5 py-1 rounded-lg text-xs font-medium border transition-all cursor-default ${styles[color]}`}>
+    <span className={`inline-block px-3 py-1.5 rounded-lg text-sm font-medium border transition-all cursor-default ${styles[color]}`}>
       {children}
     </span>
   )
@@ -122,13 +122,13 @@ function CardHeader({ icon: Icon, label, gradient }: { icon: React.ElementType; 
       <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${gradient} flex items-center justify-center shadow-sm flex-shrink-0`}>
         <Icon className="w-4 h-4 text-white" strokeWidth={2.5} />
       </div>
-      <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">{label}</span>
+      <span className="text-base font-semibold text-gray-500 uppercase tracking-wide">{label}</span>
     </div>
   )
 }
 
 function SubHeading({ children }: { children: React.ReactNode }) {
-  return <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{children}</h4>
+  return <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">{children}</h4>
 }
 
 /* ─── Main component ──────────────────────────────────────────── */
